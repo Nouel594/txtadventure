@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 class Game
 {
@@ -22,6 +23,8 @@ class Game
 		Room pub = new Room("in the campus pub");
 		Room lab = new Room("in a computing lab");
 		Room office = new Room("in the computing admin office");
+		 Room balcony = new Room("on the balcony overlooking the theatre stage");
+
 
 		// Initialise room exits
 		outside.AddExit("east", theatre);
@@ -29,6 +32,7 @@ class Game
 		outside.AddExit("west", pub);
 
 		theatre.AddExit("west", outside);
+        theatre.AddExit("up" , balcony);
 
 		pub.AddExit("east", outside);
 
@@ -36,6 +40,9 @@ class Game
 		lab.AddExit("east", office);
 
 		office.AddExit("west", lab);
+
+        balcony.AddExit("down", theatre);
+
 
 		// Create your Items here
 		// ...
@@ -99,15 +106,22 @@ class Game
 			case "quit":
 				wantToQuit = true;
 				break;
+			case "look":
+			Look();
+			break;
 		}
 
 		return wantToQuit;
 	}
+	private void Look()
+{
+    Console.WriteLine(currentRoom.GetLongDescription());
+}
 
 	// ######################################
 	// implementations of user commands:
 	// ######################################
-	
+
 	// Print out some help information.
 	// Here we print the mission and a list of the command words.
 	private void PrintHelp()
@@ -129,6 +143,7 @@ class Game
 			Console.WriteLine("Go where?");
 			return;
 		}
+	
 
 		string direction = command.SecondWord;
 
@@ -142,5 +157,10 @@ class Game
 
 		currentRoom = nextRoom;
 		Console.WriteLine(currentRoom.GetLongDescription());
+
+	
 	}
 }
+
+
+
