@@ -1,29 +1,29 @@
 using System;
 using System.Runtime.CompilerServices;
 
-class Game
-{
-	// Private fields
-	private Parser parser;
-	private Room currentRoom;
+class Game {
+    // Private fields	
+    private Parser parser;
+    private Player player;
 
-	// Constructor
-	public Game()
-	{
-		parser = new Parser();
-		CreateRooms();
-	}
+    // Constructor
+    public Game() {
+        parser = new Parser();
+        player  = new Player();
+        createRooms();
+    }
 
 	// Initialise the Rooms (and the Items)
-	private void CreateRooms()
+	private void createRooms()
 	{
+	
 		// Create the rooms
 		Room outside = new Room("outside the main entrance of the university");
 		Room theatre = new Room("in a lecture theatre");
 		Room pub = new Room("in the campus pub");
 		Room lab = new Room("in a computing lab");
 		Room office = new Room("in the computing admin office");
-		 Room balcony = new Room("on the balcony overlooking the theatre stage");
+		Room balcony = new Room("on the balcony overlooking the theatre stage");
 
 
 		// Initialise room exits
@@ -45,12 +45,15 @@ class Game
 
 
 		// Create your Items here
-		// ...
+		Item knife = new Item("Knife 5 kg");
+		Item bow = new Item("bow 5 kg");
+		Item katana = new Item("katana 15 kg");
+		Item axe = new Item("axe 10 kg");
 		// And add them to the Rooms
 		// ...
 
 		// Start game outside
-		currentRoom = outside;
+		player.CurrentRoom = outside;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -79,7 +82,7 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
-		Console.WriteLine(currentRoom.GetLongDescription());
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
 	// Given a command, process (that is: execute) the command.
@@ -109,13 +112,18 @@ class Game
 			case "look":
 			Look();
 			break;
+			case "status":
+			Status();
+			break;
 		}
 
 		return wantToQuit;
 	}
-	private void Look()
+
+
+    private void Look()
 {
-    Console.WriteLine(currentRoom.GetLongDescription());
+    Console.WriteLine(player.CurrentRoom.GetLongDescription());
 }
 
 	// ######################################
@@ -148,15 +156,15 @@ class Game
 		string direction = command.SecondWord;
 
 		// Try to go to the next room.
-		Room nextRoom = currentRoom.GetExit(direction);
+		Room nextRoom = player.CurrentRoom.GetExit(direction);
 		if (nextRoom == null)
 		{
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
 
-		currentRoom = nextRoom;
-		Console.WriteLine(currentRoom.GetLongDescription());
+		player.CurrentRoom = nextRoom;
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 
 	
 	}
