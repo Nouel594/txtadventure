@@ -1,23 +1,31 @@
+using System.Dynamic;
+
 class Player
 {
-    // auto property
+    // Auto-property
     public Room CurrentRoom { get; set; }
-    // constructor
-    public Player ()
-    {
-        CurrentRoom = null;
-    }
 
-        // fields
     // Fields
     private int health;
 
-    // Constructor
-    public Player() {
-        health = 100;
+    public int Health
+    {
+    get {return health;}
+    private set {health = value;}
     }
-    
+
+    // Single constructor
+    public Player() 
+    {
+        CurrentRoom = null;
+      Health = 100;
+
+
+    }
+
+
 }
+
 
 
 

@@ -1,22 +1,24 @@
 using System;
 using System.Runtime.CompilerServices;
 
-class Game {
-    // Private fields	
-    private Parser parser;
-    private Player player;
+class Game
+{
+	// Private fields	
+	private Parser parser;
+	private Player player;
 
-    // Constructor
-    public Game() {
-        parser = new Parser();
-        player  = new Player();
-        createRooms();
-    }
+	// Constructor
+	public Game()
+	{
+		parser = new Parser();
+		player = new Player();
+		createRooms();
+	}
 
 	// Initialise the Rooms (and the Items)
 	private void createRooms()
 	{
-	
+
 		// Create the rooms
 		Room outside = new Room("outside the main entrance of the university");
 		Room theatre = new Room("in a lecture theatre");
@@ -32,7 +34,7 @@ class Game {
 		outside.AddExit("west", pub);
 
 		theatre.AddExit("west", outside);
-        theatre.AddExit("up" , balcony);
+		theatre.AddExit("up", balcony);
 
 		pub.AddExit("east", outside);
 
@@ -41,7 +43,7 @@ class Game {
 
 		office.AddExit("west", lab);
 
-        balcony.AddExit("down", theatre);
+		balcony.AddExit("down", theatre);
 
 
 		// Create your Items here
@@ -92,7 +94,7 @@ class Game {
 	{
 		bool wantToQuit = false;
 
-		if(command.IsUnknown())
+		if (command.IsUnknown())
 		{
 			Console.WriteLine("I don't know what you mean...");
 			return wantToQuit; // false
@@ -110,21 +112,29 @@ class Game {
 				wantToQuit = true;
 				break;
 			case "look":
-			Look();
-			break;
+				Look();
+				break;
 			case "status":
-			Status();
-			break;
+				Status();
+				break;
+
 		}
 
 		return wantToQuit;
 	}
 
 
-    private void Look()
-{
-    Console.WriteLine(player.CurrentRoom.GetLongDescription());
-}
+	private void Status()
+
+	{
+		Console.WriteLine(player.Health + "HP");
+    
+	}
+
+	private void Look()
+	{
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+	}
 
 	// ######################################
 	// implementations of user commands:
@@ -145,13 +155,13 @@ class Game {
 	// room, otherwise print an error message.
 	private void GoRoom(Command command)
 	{
-		if(!command.HasSecondWord())
+		if (!command.HasSecondWord())
 		{
 			// if there is no second word, we don't know where to go...
 			Console.WriteLine("Go where?");
 			return;
 		}
-	
+
 
 		string direction = command.SecondWord;
 
@@ -159,14 +169,14 @@ class Game {
 		Room nextRoom = player.CurrentRoom.GetExit(direction);
 		if (nextRoom == null)
 		{
-			Console.WriteLine("There is no door to "+direction+"!");
+			Console.WriteLine("There is no door to " + direction + "!");
 			return;
 		}
 
 		player.CurrentRoom = nextRoom;
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 
-	
+
 	}
 }
 
